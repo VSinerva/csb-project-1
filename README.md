@@ -17,20 +17,20 @@ I am using the basic Django template, so no instructions are included.
 
 FLAW 1:
 
-Broken Access Control
+Broken Access Control (Can delete another user's notes)
 
 FLAW 2:
 
-Cryptographic Failure
+Cryptographic Failure (Weak/No password hashing)
 
 FLAW 3:
 
-SQL Injection
+SQL Injection (Unsanitized SQL query for search)
 
 FLAW 4:
 
-Security Misconfiguration
+Identification and Authentication Failure (No password strength checks)
 
 FLAW 5:
 
-CSRF
+CSRF (No CSRF token for Delete)
