@@ -5,10 +5,10 @@
       {% csrf_token %}
       <input type="submit" value="Log out">
     </form>
+    <br>
+    <a href="/">Back to Front Page</a>
 
-    <h1>Hello, {{user.username }}!</h1>
-
-    <h2>Notes:</h2>
+    <h2>Notes matching search "{{keyword}}":</h2>
     {% for note in notes %}
     <h4>{{note.time}}:</h4>
     {{note.body}}
@@ -18,19 +18,13 @@
     </form>
     {% endfor %}
 
-    <h2>Add note: </h2>
-    <form action="/add/" method="POST">
-      {% csrf_token %}
-      <input type="text" id="body" name="body"><br><br>
-      <input type="submit" value="Add note">
-    </form>
-
-    <h2>Search notes: </h2>
+    <h2>Search again: </h2>
     <form action="/search/" method="GET">
       <label for="keyword">Search Text:</label><br>
       <input type="text" id="keyword" name="keyword"}><br><br>
       <input type="submit" value="Search">
     </form>
+
 
   </body>
 </html>

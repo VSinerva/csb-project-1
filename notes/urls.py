@@ -19,6 +19,9 @@ from notes import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('add/', views.add, name='add'),
+    path('remove/<int:note_id>/', views.remove, name='remove'),
+    path('search/', views.search, name='search'),
     path('accounts/login/', views.login_view, name='login'),
     path('accounts/logout/', views.logout_view, name='logout'),
 ]
