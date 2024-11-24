@@ -4,10 +4,19 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from django.db import transaction
+from django.db import transaction, connection
+
+# from notes.models import Note
 
 @login_required()
 def index(request):
+    user = request.user
+
+#    notes = Note.objects.filter(owner=user)
+#    notes_list = [ { 'time' : note.time, 'body' : note.body } for note in notes ]
+#    notes_list.sort(key=lambda note: note['time'])
+
+#    return render(request, 'index.html', { 'notes' : notes_list})
     return render(request, 'index.html')
 
 def login_view(request):
