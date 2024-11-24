@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <form action="/accounts/logout/" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="Log out">
+    </form>
+	  <h1>Hello, logged in user {{user.username }}!</h1>
+  </body>
+</html>
