@@ -15,7 +15,7 @@ I am using the basic Django template, so no instructions are included.
 The user accounts `test1:test1` and `test2:test2` have been added to the database for testing purposes.
 
 FLAW 1:
-> ADD EXACT SOURCE LINK
+https://github.com/VSinerva/csb-project-1/blob/141be7b2b3f2b29e55d4053a47bae09c45f18b8d/notes/views.py#L39
 
 (Broken Access Control) Right now, the notes are identified and deleted with a simple sequential ID, with no ownership or permission checks.
 This makes it trivial for any logged in user to delete notes from other users.
@@ -28,7 +28,7 @@ belongs to the logged in user.
 
 
 FLAW 2:
-> ADD EXACT SOURCE LINK
+https://github.com/VSinerva/csb-project-1/blob/141be7b2b3f2b29e55d4053a47bae09c45f18b8d/project/settings.py#L115
 
 (Cryptographic Failures) The current settings for the application has unsalted MD5 as the password hashing algorithm.
 This in insecure for several reasons.
@@ -42,7 +42,7 @@ The algorithms mentioned above have been commented out in the code.
 If users already exist with weakly hashed passwords, a more complicated migration (re-hash on login or storing hashes of the MD5 hashes) is needed.
 
 FLAW 3:
-> ADD EXACT SOURCE LINK
+https://github.com/VSinerva/csb-project-1/blob/141be7b2b3f2b29e55d4053a47bae09c45f18b8d/notes/views.py#L54
 
 (Injection) The application has a classic SQL injection vunlerability in its search function.
 This is cause by taking the user input (search text) and placing it directly in the SQL query with a Python f-string.
@@ -57,7 +57,7 @@ The commented out code implements this fixed version.
 
 
 FLAW 4:
-> ADD EXACT SOURCE LINK
+https://github.com/VSinerva/csb-project-1/blob/141be7b2b3f2b29e55d4053a47bae09c45f18b8d/notes/views.py#L108
 
 (Identification and Authentication Failures) As is, the application performs no checks for weak passwords.
 This makes users more vulnerable to attacks based on trying common and weak passwords, escpecially if the password database gets leaked (See also flaws 2 and 3).
@@ -68,7 +68,7 @@ These checks are implemented in the commented out code, and would significantly 
 
 
 FLAW 5:
-> ADD EXACT SOURCE LINK
+https://github.com/VSinerva/csb-project-1/blob/141be7b2b3f2b29e55d4053a47bae09c45f18b8d/project/settings.py#L23
 
 (Security Misconfiguration) The current project settings set debug features to always be on, and contains the Django secret key in the public repository.
 Django in debug mode shows detailed stack traces etc. when errors occur, which could reveal internal information.
