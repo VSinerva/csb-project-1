@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <body>
+    <h3>Log In</h3>
     {% if login_failed %}
     <p> Incorrect username or password! </p>
     {% endif %}
@@ -11,6 +12,24 @@
       <label for="password">Password:</label><br>
       <input type="password" id="password" name="password"><br><br>
       <input type="submit" value="Log in">
+    </form>
+
+    <h3>Register as New User</h3>
+
+    <form action="/accounts/register/" method="POST">
+      {% csrf_token %}
+      <label for="username">Username:</label><br>
+      <input type="text" id="username" name="username"><br><br>
+      <label for="password">Password:</label><br>
+      <input type="password" id="password1" name="password1"><br><br>
+      <label for="password">Repeat Password:</label><br>
+      <input type="password" id="password2" name="password2"><br><br>
+      <ul>
+        {% for error in registration_errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+      </ul>
+      <input type="submit" value="Register">
     </form>
   </body>
 </html>

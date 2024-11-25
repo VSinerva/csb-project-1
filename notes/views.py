@@ -1,9 +1,13 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.password_validation import validate_password
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
+from django.core.exceptions import ValidationError
 
 from notes.models import Note
 
@@ -69,6 +73,42 @@ def login_view(request):
             return redirect("index")
         else:
             return render(request, 'login.html', { 'login_failed' : True })
+
+    return redirect("index")
+
+
+def register_view(request):
+    if request.method == 'POST':
+        errors = []
+        username = request.POST.get('username')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        # Username validation
+        if User.objects.filter(username=username).first() != None:
+            errors.append("Username in use.")
+        try:
+            username_validator = UnicodeUsernameValidator()
+            username_validator(username)
+        except ValidationError as error:
+            for message in error.messages:
+                errors.append(message)
+
+        # Password validation
+        if password1 != password2:
+            errors.append("Passwords don't match.")
+        try:
+            validate_password(password1)
+        except ValidationError as error:
+            for message in error.messages:
+                errors.append(message)
+
+        if not errors:
+            user = User.objects.create_user(username=username, password=password1)
+            login(request, user)
+            return redirect("index")
+        else:
+            return render(request, 'login.html', { 'registration_errors' : errors })
 
     return redirect("index")
 

@@ -23,5 +23,6 @@ urlpatterns = [
     path('remove/<int:note_id>/', views.remove, name='remove'),
     path('search/', views.search, name='search'),
     path('accounts/login/', views.login_view, name='login'),
+    path('accounts/register/', views.register_view, name='register'),
     path('accounts/logout/', views.logout_view, name='logout'),
 ]
