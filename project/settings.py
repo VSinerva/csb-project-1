@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from os import getenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,9 +20,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
+# FLAW 5:
+# The security key should be changed to be secure, and not visible in the repo!
+# Debug should also be disabled in production, but is now hardcoded to True
+# A good idea would be to load the values from environment variables
+# This is implemented in the commented out code
+# SECRET_KEY = getenv("DJANGO_SECRET_KEY")
+# DEBUG = getenv("DJANGO_DEBUG")
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-)10v6d=(_iu)19nfuzz9jc6#$1lw=-)33s(%nv*#dsa6tibt1!'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
