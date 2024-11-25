@@ -36,10 +36,12 @@ def add(request):
 @login_required()
 def remove(request, note_id):
     if request.method == 'POST':
-        user = request.user
         note = Note.objects.get(pk=note_id)
-        if user == note.owner:
-            note.delete()
+# FLAW 1:
+# Adding an ownership check would fix the problem
+#        user = request.user
+#        if user == note.owner:
+        note.delete()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'index'))
 
