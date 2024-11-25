@@ -40,7 +40,12 @@ SQL Injection (Unsanitized SQL query for search)
 FLAW 4:
 > ADD EXACT SOURCE LINK
 
-Identification and Authentication Failure (No password strength checks)
+(Identification and Authentication Failures) As is, the application performs no checks for weak passwords.
+This makes users more vulnerable to attacks based on trying common and weak passwords, escpecially if the password database gets leaked (See also flaws 2 and 3).
+
+The fix for this issue is to perform server-side validation on new passwords, and checking that they are reasonable.
+Django includes a simple built-in validator which checks that the password has a minimum length (default 8, in this app 10), is not too similar to the username, is not a common password (20000 password list) and is not purely numeric.
+These checks are implemented in the commented out code, and would significantly improve the situation.
 
 FLAW 5:
 > ADD EXACT SOURCE LINK

@@ -99,11 +99,13 @@ def register_view(request):
         # Password validation
         if password1 != password2:
             errors.append("Passwords don't match.")
-        try:
-            validate_password(password1)
-        except ValidationError as error:
-            for message in error.messages:
-                errors.append(message)
+# FLAW 4:
+# Adding some sensible password validation would fix the problem
+#        try:
+#            validate_password(password1)
+#        except ValidationError as error:
+#            for message in error.messages:
+#                errors.append(message)
 
         if not errors:
             user = User.objects.create_user(username=username, password=password1)
