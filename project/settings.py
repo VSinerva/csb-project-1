@@ -103,6 +103,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PASSWORD_HASHERS = [
+# FLAW 2:
+# Changing to one of the far safer hashing algorithms commented out below would fix the issue
+#    'django.contrib.auth.hashers.Argon2PasswordHasher',
+#    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

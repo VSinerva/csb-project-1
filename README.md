@@ -18,8 +18,8 @@ I am using the basic Django template, so no instructions are included.
 FLAW 1:
 > ADD EXACT SOURCE LINK
 
-(Broken Access Control) Right now, the notes are identified and deleted with a simple sequential ID.
-This makes it trivial for a logged in user to delete notes from other users.
+(Broken Access Control) Right now, the notes are identified and deleted with a simple sequential ID, with no ownership or permission checks.
+This makes it trivial for any logged in user to delete notes from other users.
 The malicious user simply needs to edit the client-side URL of their POST request.
 
 The issue can easily be fixed by adding the commented out ownership check before deleting a note.
@@ -30,7 +30,16 @@ belongs to the logged in user.
 FLAW 2:
 > ADD EXACT SOURCE LINK
 
-Cryptographic Failure (Weak/No password hashing)
+(Cryptographic Failures) The current settings for the application has unsalted MD5 as the password hashing algorithm.
+This in insecure for several reasons.
+MD5 is considered broken for cryptographic purposes, and has been for years, because modern hardware can check guessed passwords too quickly.
+This is made worse by the lack of a salt (a unique random string added to each users password before hashing), because all users with the same password will have the same hash.
+With these settings, the hashing is so broken that you can type the hash for a weak password (See also flaws 3 and 4) into a search engine and get the password!
+
+The fix is to use a secure hashing algorithm, like PBKDF2 or Argon2 (both with the appropriate parameters).
+This will make the hashes much harder to break for any reasonably strong password.
+The algorithms mentioned above have been commented out in the code.
+If users already exist with weakly hashed passwords, a more complicated migration (re-hash on login or storing hashes of the MD5 hashes) is needed.
 
 FLAW 3:
 > ADD EXACT SOURCE LINK
@@ -50,4 +59,4 @@ These checks are implemented in the commented out code, and would significantly 
 FLAW 5:
 > ADD EXACT SOURCE LINK
 
-CSRF (No CSRF token for Delete)
+Misconfiguration
