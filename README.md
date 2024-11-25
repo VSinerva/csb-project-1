@@ -7,8 +7,6 @@ The point is to demonstrate common cyber security problems and their fixes.
 
 ## Description of vulnerabilities
 
-> **_NOTE:_** More detailed description of problems coming soon.
-
 I am using the 2021 OWASP Top Ten list.
 
 LINK: https://github.com/VSinerva/csb-project-1
@@ -46,7 +44,16 @@ If users already exist with weakly hashed passwords, a more complicated migratio
 FLAW 3:
 > ADD EXACT SOURCE LINK
 
-SQL Injection (Unsanitized SQL query for search)
+(Injection) The application has a classic SQL injection vunlerability in its search function.
+This is cause by taking the user input (search text) and placing it directly in the SQL query with a Python f-string.
+As an example, the "Search text" shown below will give any user a full listing of all usernames and their hashed passwords.
+`' AND 0=1 UNION SELECT date_joined, username || ":" || password as user, id FROM auth_user; --`
+Especially with flaws 2 and 4 present, this will quickly lead to a lot of compromised accounts.
+
+The fix to this issue is to properly escape/sanitize the user input e.g. by escaping control characters.
+This is difficult to do perfectly, so best practice is to use a well-known library or something similar for this.
+Luckily, Django has existing functionality for doing what we wanted to do, which will fix this issue.
+The commented out code implements this fixed version.
 
 
 FLAW 4:

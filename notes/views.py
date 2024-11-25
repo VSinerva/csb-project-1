@@ -5,7 +5,6 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.password_validation import validate_password
 from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
 from django.core.exceptions import ValidationError
 
@@ -52,9 +51,16 @@ def search(request):
         user = request.user
         keyword = request.GET.get('keyword')
 
-        notes = Note.objects.filter(owner=user, body__icontains=keyword)
-        notes_list = [ { 'time' : note.time, 'body' : note.body, 'id' : note.id } for note in notes ]
-        notes_list.sort(key=lambda note: note['time'])
+# FLAW 3:
+# Using the commented out version of the code uses Django's built in methods
+# This makes sure the inputs are properly sanitized
+#        notes = Note.objects.filter(owner=user, body__icontains=keyword)
+#        notes_list = [ { 'time' : note.time, 'body' : note.body, 'id' : note.id } for note in notes ]
+#        notes_list.sort(key=lambda note: note['time'])
+        query = f"SELECT time, body, id FROM notes_note WHERE body LIKE '%{keyword}%' ORDER BY time;"
+        with connection.cursor() as cursor:
+            notes = cursor.execute(query).fetchall()
+        notes_list = [ { 'time' : note[0], 'body' : note[1], 'id' : note[2] } for note in notes ]
 
         return render(request, 'search.html', { 'notes' : notes_list, 'keyword' : keyword})
 
